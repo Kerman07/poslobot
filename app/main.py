@@ -36,6 +36,7 @@ def incoming():
     if isinstance(viber_request, ViberMessageRequest):
         message = viber_request.message
         # lets echo back
+        logging.warn(viber_request.sender.id)
         viber.send_messages(viber_request.sender.id, [message])
     elif isinstance(viber_request, ViberSubscribedRequest):
         viber.send_messages(
