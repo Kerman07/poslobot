@@ -37,7 +37,7 @@ def incoming():
 
     if isinstance(viber_request, ViberMessageRequest):
         # jobs = get_jobs()
-        msgs = ["kera"]
+        msgs = [TextMessage(text="kera")]
         # for posao, poslodavac, link in jobs:
         #     message = f"{posao}\n{link}\n{poslodavac}"
         #     msgs.append(TextMessage(text=message))
