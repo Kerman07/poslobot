@@ -39,7 +39,7 @@ def incoming():
         jobs = get_jobs()
         for posao, poslodavac, link in jobs:
             message = f"{posao}\n{poslodavac}\n{link}"
-            viber.send_messages(viber_request.sender.id, [message])
+            viber.send_messages(viber_request.sender.id, [TextMessage(text=message)])
     elif isinstance(viber_request, ViberSubscribedRequest):
         viber.send_messages(
             viber_request.get_user.id, [TextMessage(text="thanks for subscribing!")]
