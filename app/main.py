@@ -24,7 +24,7 @@ viber = Api(
 
 
 @app.route("/", methods=["POST"])
-def incoming():
+async def incoming():
     logging.debug("received request. post data: {0}".format(request.get_data()))
     # every viber message is signed, you can verify the signature using this method
     if not viber.verify_signature(
@@ -36,7 +36,7 @@ def incoming():
     viber_request = viber.parse_request(request.get_data())
 
     if isinstance(viber_request, ViberMessageRequest):
-        jobs = get_jobs()
+        jobs = await get_jobs()
         for posao, poslodavac, link in jobs:
             message = f"{posao}\n{poslodavac}\n{link}"
             viber.send_messages(viber_request.sender.id, [TextMessage(text=message)])
