@@ -36,11 +36,10 @@ def incoming():
     viber_request = viber.parse_request(request.get_data())
 
     if isinstance(viber_request, ViberMessageRequest):
-        logging.debug("message received")
         jobs = get_jobs()
         msgs = []
         for posao, poslodavac, link in jobs:
-            message = f"{posao}\n{poslodavac}\n{link}"
+            message = f"{posao}\n{link}\n{poslodavac}"
             msgs.append(TextMessage(text=message))
         viber.send_messages(viber_request.sender.id, msgs)
     elif isinstance(viber_request, ViberSubscribedRequest):
