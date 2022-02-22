@@ -11,7 +11,7 @@ from viberbot.api.viber_requests import ViberMessageRequest
 from viberbot.api.viber_requests import ViberSubscribedRequest
 from viberbot.api.viber_requests import ViberUnsubscribedRequest
 
-from selen import get_jobs
+from app.selen import get_jobs
 
 app = Flask(__name__)
 viber = Api(
