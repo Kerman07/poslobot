@@ -36,7 +36,7 @@ async def incoming():
     viber_request = viber.parse_request(request.get_data())
 
     if isinstance(viber_request, ViberMessageRequest):
-        jobs = await get_jobs()
+        jobs = get_jobs()
         for posao, poslodavac, link in jobs:
             message = f"{posao}\n{poslodavac}\n{link}"
             viber.send_messages(viber_request.sender.id, [TextMessage(text=message)])
