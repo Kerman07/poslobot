@@ -11,6 +11,8 @@ from viberbot.api.viber_requests import ViberMessageRequest
 from viberbot.api.viber_requests import ViberSubscribedRequest
 from viberbot.api.viber_requests import ViberUnsubscribedRequest
 
+from selen import get_jobs
+
 app = Flask(__name__)
 viber = Api(
     BotConfiguration(
@@ -34,11 +36,10 @@ def incoming():
     viber_request = viber.parse_request(request.get_data())
 
     if isinstance(viber_request, ViberMessageRequest):
-        message = viber_request.message
-        # lets echo back
-        logging.warn("moj user id je: ")
-        logging.warn(viber_request.sender.id)
-        viber.send_messages(viber_request.sender.id, [message])
+        jobs = get_jobs()
+        for posao, poslodavac, link in jobs:
+            message = f"{posao}\n{poslodavac}\n{link}"
+            viber.send_messages(viber_request.sender.id, [message])
     elif isinstance(viber_request, ViberSubscribedRequest):
         viber.send_messages(
             viber_request.get_user.id, [TextMessage(text="thanks for subscribing!")]
