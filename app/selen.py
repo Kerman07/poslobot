@@ -21,7 +21,7 @@ def get_jobs():
 
     baseUrl = "https://www.mojposao.ba/#!searchjobs;keyword=;page=1;title=all;range=week;location=all;i=32_31_47;lk=Sarajevo;state=all"
     driver.get(baseUrl)
-    time.sleep(3)
+    driver.implicitly_wait(4)
     collected = []
     jobs = driver.find_elements(By.CLASS_NAME, "BF0HTNC-hg-l")
     for job in jobs:

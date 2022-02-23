@@ -36,11 +36,11 @@ def incoming():
     viber_request = viber.parse_request(request.get_data())
 
     if isinstance(viber_request, ViberMessageRequest):
-        # jobs = get_jobs()
-        msgs = [TextMessage(text="kera")]
-        # for posao, poslodavac, link in jobs:
-        #     message = f"{posao}\n{link}\n{poslodavac}"
-        #     msgs.append(TextMessage(text=message))
+        jobs = get_jobs()
+        msgs = []
+        for posao, poslodavac, link in jobs:
+            message = f"{posao}\n{link}\n{poslodavac}"
+            msgs.append(TextMessage(text=message))
         viber.send_messages(viber_request.sender.id, msgs)
     elif isinstance(viber_request, ViberSubscribedRequest):
         viber.send_messages(
@@ -55,5 +55,4 @@ def incoming():
 
 
 if __name__ == "__main__":
-    # context = ("server.crt", "server.key")
     app.run(host="0.0.0.0", port=443, debug=True)
