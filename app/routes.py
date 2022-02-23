@@ -51,7 +51,7 @@ def incoming():
         db.session.commit()
     elif isinstance(viber_request, ViberSubscribedRequest):
         viber.send_messages(
-            viber_request.get_user.id, [TextMessage(text="thanks for subscribing!")]
+            viber_request.user.id, [TextMessage(text="thanks for subscribing!")]
         )
     elif isinstance(viber_request, ViberUnsubscribedRequest):
         # delete user from db
