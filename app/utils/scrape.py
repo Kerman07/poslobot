@@ -1,6 +1,5 @@
 import selenium
 import os
-import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -8,7 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
 
-def get_jobs():
+def get_jobs(categories, location):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument("--headless")
@@ -19,7 +18,7 @@ def get_jobs():
         chrome_options=chrome_options,
     )
 
-    baseUrl = "https://www.mojposao.ba/#!searchjobs;keyword=;page=1;title=all;range=week;location=all;i=32_31_47;lk=Sarajevo;state=all"
+    baseUrl = f"https://www.mojposao.ba/#!searchjobs;keyword=;page=1;title=all;range=today;location=all;i={categories};lk={location}"
     driver.get(baseUrl)
     driver.implicitly_wait(4)
     collected = []
@@ -27,11 +26,11 @@ def get_jobs():
     for job in jobs:
         whole_link = job.find_element(By.TAG_NAME, "a")
         if whole_link.text:
-            posao = whole_link.text
+            position = whole_link.text
             whole_link = whole_link.get_attribute("href").split(";")
             link = whole_link[0] + ";" + whole_link[-1]
             hgc = job.find_elements(By.CLASS_NAME, "BF0HTNC-hg-c")[-1]
-            poslodavac = hgc.text
-            collected.append([posao, poslodavac, link])
+            company = hgc.text
+            collected.append([position, company, link])
     driver.quit()
     return collected
