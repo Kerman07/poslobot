@@ -43,9 +43,9 @@ def incoming():
 
     if isinstance(viber_request, ViberMessageRequest):
         message = viber_request.message
-        check_user = User.query.filter_by(receiver=viber_request.sender.id)
-        if check_user:
-            return
+        check_user = User.query.filter_by(receiver=viber_request.sender.id).first()
+        if check_user is not None:
+            return Response(status=500)
         user = User(receiver=viber_request.sender.id)
         db.session.add(user)
         db.session.commit()
