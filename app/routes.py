@@ -55,7 +55,8 @@ def incoming():
         )
     elif isinstance(viber_request, ViberUnsubscribedRequest):
         # delete user from db
-        user = User.query.filter(User.receiver == viber_request.get_user.id).delete()
+        user = User.query.filter(User.receiver == viber_request.get_user.id).first()
+        db.session.delete(user)
         db.session.commit()
     elif isinstance(viber_request, ViberFailedRequest):
         logging.warn(
