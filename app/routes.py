@@ -53,11 +53,23 @@ def incoming():
         viber.send_messages(
             viber_request.user.id, [TextMessage(text="thanks for subscribing!")]
         )
+
     elif isinstance(viber_request, ViberUnsubscribedRequest):
         # delete user from db
         user = User.query.filter_by(receiver=viber_request.user_id).first()
         db.session.delete(user)
         db.session.commit()
+
+    elif isinstance(viber_request, ViberConversationStartedRequest):
+        viber.send_messages(
+            viber_request.get_user().get_id(),
+            [
+                TextMessage(
+                    text="Zdravo, ja sam Poslobot, da bi počeli koristiti moje usluge pošaljite poruku sa proizvoljnim sadržajem"
+                )
+            ],
+        )
+
     elif isinstance(viber_request, ViberFailedRequest):
         logging.warn(
             "client failed receiving message. failure: {0}".format(viber_request)
