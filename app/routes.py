@@ -62,7 +62,7 @@ def incoming():
 
     elif isinstance(viber_request, ViberConversationStartedRequest):
         viber.send_messages(
-            viber_request.get_user().get_id(),
+            viber_request.user.id,
             [
                 TextMessage(
                     text="Zdravo, ja sam Poslobot, da bi počeli koristiti moje usluge pošaljite poruku sa proizvoljnim sadržajem"
