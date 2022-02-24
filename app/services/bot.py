@@ -1,4 +1,4 @@
-from app import db
+from app import db, viber
 from app.models import User
 from app.utils.texts import categories
 from app.utils.scrape import get_jobs
@@ -7,7 +7,7 @@ def message_handler(viber_request, message):
     user = User.query.filter_by(receiver=viber_request.sender.id).first()
 
     if message == "Cat":
-            viber.send_messages(viber_request.sender.id, categories)
+        viber.send_messages(viber_request.sender.id, categories)
     elif message.startswith("Cat"):
         cats = message.split()[1].replace(".", "_")
         user.categories = cats
