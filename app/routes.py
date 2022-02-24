@@ -51,8 +51,8 @@ def incoming():
 
     elif isinstance(viber_request, ViberMessageRequest):
         message = viber_request.message
-        if message == "cat":
-            viber.send_messages(viber_request.sender.id, [categories])
+        if message == "Cat":
+            viber.send_messages(viber_request.sender.id, categories)
 
     elif isinstance(viber_request, ViberUnsubscribedRequest):
         user = User.query.filter_by(receiver=viber_request.user_id).first()
