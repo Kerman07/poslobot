@@ -50,7 +50,7 @@ def incoming():
         viber.send_messages(viber_request.user.id, [subscribed])
 
     elif isinstance(viber_request, ViberMessageRequest):
-        message = viber_request.message
+        message = viber_request.message.text
         if message == "Cat":
             viber.send_messages(viber_request.sender.id, categories)
 
