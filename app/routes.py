@@ -3,14 +3,13 @@ from flask import request, Response
 from app import app
 from viberbot import Api
 from viberbot.api.bot_configuration import BotConfiguration
-from viberbot.api.messages import VideoMessage
 from viberbot.api.messages.text_message import TextMessage
 import logging
 
-from viberbot.api.viber_requests import ViberConversationStartedRequest
 from viberbot.api.viber_requests import (
     ViberFailedRequest,
     ViberMessageRequest,
+    ViberConversationStartedRequest,
     ViberSubscribedRequest,
     ViberUnsubscribedRequest,
 )
@@ -18,6 +17,7 @@ from viberbot.api.viber_requests import (
 from app.utils.scrape import get_jobs
 from app import db
 from app.models import User
+from app.utils.texts import conversation_started, subscribed
 
 
 viber = Api(
@@ -41,21 +41,19 @@ def incoming():
     # this library supplies a simple way to receive a request object
     viber_request = viber.parse_request(request.get_data())
 
-    if isinstance(viber_request, ViberMessageRequest):
+    if isinstance(viber_request, ViberSubscribedRequest):
+        viber.send_messages(viber_request.user.id, [TextMessage(text=subscribed)])
+
+    elif isinstance(viber_request, ViberMessageRequest):
         message = viber_request.message
         check_user = User.query.filter_by(receiver=viber_request.sender.id).first()
-        if check_user is not None:
+        if check_user:
             return Response(status=500)
         user = User(receiver=viber_request.sender.id)
         db.session.add(user)
         db.session.commit()
-    elif isinstance(viber_request, ViberSubscribedRequest):
-        viber.send_messages(
-            viber_request.user.id, [TextMessage(text="thanks for subscribing!")]
-        )
 
     elif isinstance(viber_request, ViberUnsubscribedRequest):
-        # delete user from db
         user = User.query.filter_by(receiver=viber_request.user_id).first()
         db.session.delete(user)
         db.session.commit()
@@ -63,11 +61,7 @@ def incoming():
     elif isinstance(viber_request, ViberConversationStartedRequest):
         viber.send_messages(
             viber_request.user.id,
-            [
-                TextMessage(
-                    text="Zdravo, ja sam Poslobot, da bi počeli koristiti moje usluge pošaljite poruku sa proizvoljnim sadržajem"
-                )
-            ],
+            [TextMessage(text=conversation_started)],
         )
 
     elif isinstance(viber_request, ViberFailedRequest):
