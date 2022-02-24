@@ -1,5 +1,6 @@
 from app import db, viber
 from app.models import User
+from viberbot.api.messages.text_message import TextMessage
 from app.utils.texts import categories
 from app.utils.scrape import get_jobs
 
@@ -12,7 +13,7 @@ def message_handler(viber_request, message):
         cats = message.split()[1].replace(".", "_")
         user.categories = cats
         db.session.commit()
-    elif message == "jobs":
+    elif message == "Jobs":
         get_current_jobs(user)
 
 def get_current_jobs(user):
