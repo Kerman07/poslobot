@@ -1,8 +1,6 @@
 import os
 from flask import request, Response
-from app import app
-from viberbot import Api
-from viberbot.api.bot_configuration import BotConfiguration
+from app import app, db, viber
 from viberbot.api.messages.text_message import TextMessage
 import logging
 
@@ -14,19 +12,9 @@ from viberbot.api.viber_requests import (
     ViberUnsubscribedRequest,
 )
 
-from app.utils.scrape import get_jobs
-from app import db
 from app.models import User
-from app.utils.texts import conversation_started, subscribed, categories
-
-
-viber = Api(
-    BotConfiguration(
-        name="Poslobot",
-        avatar="http://site.com/avatar.jpg",
-        auth_token=os.environ.get("VIBER_AUTH"),
-    )
-)
+from app.utils.texts import conversation_started, subscribed
+from app.services.bot import message_handler, get_current_jobs
 
 
 @app.route("/", methods=["POST"])
@@ -51,8 +39,7 @@ def incoming():
 
     elif isinstance(viber_request, ViberMessageRequest):
         message = viber_request.message.text
-        if message == "Cat":
-            viber.send_messages(viber_request.sender.id, categories)
+        message_handler(viber_request, message)
 
     elif isinstance(viber_request, ViberUnsubscribedRequest):
         user = User.query.filter_by(receiver=viber_request.user_id).first()
@@ -77,10 +64,5 @@ def incoming():
 def send_jobs():
     users = User.query.all()
     for user in users:
-        jobs = get_jobs(user.categories, user.location)
-        msgs = []
-        for position, company, link in jobs:
-            message = f"{position}\n{link}\n{company}"
-            msgs.append(TextMessage(text=message))
-        viber.send_messages(user.receiver, msgs)
+        get_current_jobs(user)
     return Response(status=200)

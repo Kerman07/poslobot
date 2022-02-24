@@ -6,16 +6,16 @@ conversation_started = TextMessage(
 
 subscribed = TextMessage(
     text="""Dobro došli!\n
-    Svaki dan u 18:00h ćete dobijati poruku sa objavljenim poslovima toga dana.\n
-    Da bi postavili kategorije koje vas interesuju pošaljite Cat\n
-    Da bi promjenili lokaciju poslova pošaljite Loc\n
+    Svaki dan u 18h ćete dobijati poruku sa objavljenim poslovima toga dana.\n
+    Da bi postavili kategorije koje vas interesuju pošaljite Cat.\n
+    Da bi promjenili lokaciju poslova pošaljite Loc.\n
     Da vidite sve dostupne komande pošaljite Help.
     """
 )
 
 categories = [
     TextMessage(
-        text="""Da bi postavili željene kategorije pošaljite Cat i listu kategorija odvojenu sa .\n
+        text="""Da bi postavili željene kategorije pošaljite Cat i listu kategorija odvojenu sa tačkama.\n
     Npr. Cat 23.24.37
     """
     ),
