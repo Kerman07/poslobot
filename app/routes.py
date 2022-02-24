@@ -44,7 +44,7 @@ def incoming():
         # check_user = User.query.filter_by(receiver=viber_request.sender.id).first()
         # if check_user:
         #     return Response(status=500)
-        user = User(receiver=viber_request.sender.id)
+        user = User(receiver=viber_request.user.id)
         db.session.add(user)
         db.session.commit()
         viber.send_messages(viber_request.user.id, [subscribed])

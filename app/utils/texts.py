@@ -15,7 +15,7 @@ subscribed = TextMessage(
 
 categories = [
     TextMessage(
-        text="""Da bi postavili željene kategorije pošaljite cat i listu kategorija odvojenu sa .\n
+        text="""Da bi postavili željene kategorije pošaljite Cat i listu kategorija odvojenu sa .\n
     Npr. Cat 23.24.37
     """
     ),
