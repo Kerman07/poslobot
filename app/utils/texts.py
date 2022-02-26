@@ -66,3 +66,15 @@ categories = [
     """
     ),
 ]
+
+location = TextMessage(
+    text="""Da bi promjenili lokaciju koja vas zanima pošaljite Loc i naziv mjesta.\n
+    Npr. Loc Sarajevo"""
+)
+
+commands = TextMessage(
+    text="""Loc - postavite lokaciju\n
+    Cat - postavite kategorije koje vas zanimaju\n
+    Jobs - pogledajte poslove objavljene danas
+    """
+)
