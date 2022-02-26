@@ -13,14 +13,14 @@ subscribed = TextMessage(
     """
 )
 
-categories = [
-    TextMessage(
-        text="""Da bi postavili željene kategorije pošaljite Cat i listu kategorija odvojenu sa tačkama.\n
-    Npr. Cat 23.24.37
+categories = TextMessage(
+    text="""Da bi postavili željene kategorije pošaljite Cat i listu kategorija odvojenu sa tačkama.\n
+    Npr. Cat 23.24.37\n
     """
-    ),
-    TextMessage(
-        text="""Lista dostupnih kategorija:\n
+)
+
+categories_list = TextMessage(
+    text="""Lista dostupnih kategorija:\n
         1 Administrativne i slične usluge
         2 Arhitektonske usluge
         3 Bankarstvo
@@ -64,8 +64,14 @@ categories = [
         50 Ugostiteljstvo i turizam
         51 Ljudski resursi
     """
-    ),
-]
+)
+
+categories_present = TextMessage(
+    text="""Da bi dodali neku kategoriju pošaljite Cat a i novu kategoriju.\n
+    Npr. Cat a 25\n
+    Da bi izbrisali neku kategoriju pošaljite Cat d i broj kategorije.\n
+    Npr. Cat d 24"""
+)
 
 location = TextMessage(
     text="""Da bi promjenili lokaciju koja vas zanima pošaljite Loc i naziv mjesta.\n
