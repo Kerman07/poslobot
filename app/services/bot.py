@@ -7,6 +7,7 @@ from app.utils.texts import (
     categories_present,
     commands,
     location,
+    subscribed
 )
 from app.utils.scrape import get_jobs
 
@@ -14,7 +15,12 @@ from app.utils.scrape import get_jobs
 def message_handler(viber_request, message):
     user = User.query.filter_by(receiver=viber_request.sender.id).first()
 
-    if message == "Cat":
+    if message == "Start":
+        user = User(receiver=viber_request.sender.id)
+        db.session.add(user)
+        db.session.commit()
+        viber.send_messages(viber_request.sender.id, [subscribed])
+    elif message == "Cat":
         if user.categories:
             viber.send_messages(
                 viber_request.sender.id,

@@ -28,13 +28,7 @@ def incoming():
 
     viber_request = viber.parse_request(request.get_data())
 
-    if isinstance(viber_request, ViberSubscribedRequest):
-        user = User(receiver=viber_request.user.id)
-        db.session.add(user)
-        db.session.commit()
-        viber.send_messages(viber_request.user.id, [subscribed])
-
-    elif isinstance(viber_request, ViberMessageRequest):
+    if isinstance(viber_request, ViberMessageRequest):
         message = viber_request.message.text
         message_handler(viber_request, message)
 

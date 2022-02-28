@@ -1,7 +1,7 @@
 from viberbot.api.messages.text_message import TextMessage
 
 conversation_started = TextMessage(
-    text="Zdravo, ja sam Poslobot, da bi počeli koristiti moje usluge pošaljite mi poruku"
+    text="Zdravo, ja sam Poslobot, da bi počeli koristiti moje usluge pošaljite Start."
 )
 
 subscribed = TextMessage(
