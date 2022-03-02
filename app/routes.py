@@ -56,3 +56,8 @@ def send_jobs():
     for user in users:
         get_current_jobs(user)
     return Response(status=200)
+
+
+@app.route("/hero", methods=["GET"])
+def wake_heroku():
+    return Response(status=200)
