@@ -42,3 +42,4 @@ mapping = {
     "50": "Ugostiteljstvo i turizam",
     "51": "Ljudski resursi",
 }
+
