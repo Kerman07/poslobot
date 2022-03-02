@@ -7,9 +7,10 @@ from app.utils.texts import (
     categories_present,
     commands,
     location,
-    subscribed
+    subscribed,
 )
 from app.utils.scrape import get_jobs
+from app.utils.dictionary import mapping
 
 
 def message_handler(viber_request, message):
@@ -53,6 +54,11 @@ def message_handler(viber_request, message):
     elif message.startswith("Cat"):
         cats = message.split()[1].replace(".", "_")
         user.categories = cats
+        cat_mapping = "; ".join(mapping[en] for en in cats.split("_"))
+        viber.send_messages(
+            viber_request.sender.id,
+            TextMessage(text=f"Vaše izabrane kategorije su: {cat_mapping}\n"),
+        )
     elif message == "Jobs":
         get_current_jobs(user)
     elif message == "Loc":
@@ -60,6 +66,24 @@ def message_handler(viber_request, message):
     elif message.startswith("Loc"):
         loc = message.split()[1]
         user.location = loc
+        viber.send_messages(
+            viber_request.sender.id,
+            TextMessage(text="Uspješno ste promjenili lokaciju"),
+        )
+    elif message == "End":
+        user.daily = False
+        viber.send_messages(
+            viber_request.sender.id,
+            TextMessage(
+                text="Nećete primati dnevne obavijesti.\nDa bi ponovo počeli primati obavijesti pošaljite Begin"
+            ),
+        )
+    elif message == "Begin":
+        user.daily = True
+        viber.send_messages(
+            viber_request.sender.id,
+            TextMessage(text="Ponovo ćete primati dnevne obavijesti"),
+        )
     elif message == "Help":
         viber.send_messages(viber_request.sender.id, commands)
 

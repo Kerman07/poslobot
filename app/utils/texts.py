@@ -8,7 +8,8 @@ subscribed = TextMessage(
     text="""Dobro došli!\n
     Svaki dan u 18h ćete dobijati poruku sa objavljenim poslovima toga dana.\n
     Da bi postavili kategorije koje vas interesuju pošaljite Cat.\n
-    Da bi promjenili lokaciju poslova pošaljite Loc.\n
+    Da bi promijenili lokaciju poslova pošaljite Loc.\n
+    Da bi vidili danas objavljene poslove pošaljite Jobs.\n
     Da vidite sve dostupne komande pošaljite Help.
     """
 )
@@ -81,6 +82,8 @@ location = TextMessage(
 commands = TextMessage(
     text="""Loc - postavite lokaciju\n
     Cat - postavite kategorije koje vas zanimaju\n
-    Jobs - pogledajte poslove objavljene danas
+    Jobs - pogledajte poslove objavljene danas\n
+    End - prestanite primati dnevne obavijesti\n
+    Begin - ponovo počnite primati dnevne obavijesti
     """
 )

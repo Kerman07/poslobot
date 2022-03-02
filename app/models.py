@@ -6,3 +6,4 @@ class User(db.Model):
     receiver = db.Column(db.String(128), index=True, unique=True)
     categories = db.Column(db.String(200), default="")
     location = db.Column(db.String(128), default="")
+    daily = db.Column(db.Boolean, default=True)

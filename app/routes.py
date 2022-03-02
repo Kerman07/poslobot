@@ -8,7 +8,6 @@ from viberbot.api.viber_requests import (
     ViberFailedRequest,
     ViberMessageRequest,
     ViberConversationStartedRequest,
-    ViberSubscribedRequest,
     ViberUnsubscribedRequest,
 )
 
@@ -53,7 +52,7 @@ def incoming():
 
 @app.route("/viber", methods=["GET"])
 def send_jobs():
-    users = User.query.all()
+    users = User.query.filter_by(daily=True)
     for user in users:
         get_current_jobs(user)
     return Response(status=200)
