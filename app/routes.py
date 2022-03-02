@@ -1,8 +1,11 @@
+import concurrent.futures
 import os
 from flask import request, Response
 from app import app, db, viber
 from viberbot.api.messages.text_message import TextMessage
 import logging
+
+MAX_THREADS = 32
 
 from viberbot.api.viber_requests import (
     ViberFailedRequest,
@@ -53,8 +56,9 @@ def incoming():
 @app.route("/viber", methods=["GET"])
 def send_jobs():
     users = User.query.filter_by(daily=True)
-    for user in users:
-        get_current_jobs(user)
+    threads = min(MAX_THREADS, users.count())
+    with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
+        executor.map(get_current_jobs, users)
     return Response(status=200)
 
 
