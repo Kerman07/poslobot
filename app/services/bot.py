@@ -54,10 +54,10 @@ def message_handler(viber_request, message):
     elif message.startswith("Cat"):
         cats = message.split()[1].replace(".", "_")
         user.categories = cats
-        cat_mapping = "; ".join(mapping[en] for en in cats.split("_"))
+        cat_mapping = "\n".join(f"- {mapping[en]}" for en in cats.split("_"))
         viber.send_messages(
             viber_request.sender.id,
-            TextMessage(text=f"Vaše izabrane kategorije su: {cat_mapping}\n"),
+            TextMessage(text=f"Vaše izabrane kategorije su:\n{cat_mapping}"),
         )
     elif message == "Jobs":
         get_current_jobs(user)
