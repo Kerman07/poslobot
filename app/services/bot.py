@@ -60,13 +60,10 @@ def message_handler(viber_request, message):
             TextMessage(text=f"Vaše izabrane kategorije su:\n{cat_mapping}"),
         )
     elif message == "Jobs":
-        copy_user = {
-            "categories": user.categories,
-            "location": user.location,
-            "receiver": user.receiver,
-        }
-        t = Thread(target=get_current_jobs, args=(copy_user,))
+        db.session.expunge(user)
+        t = Thread(target=get_current_jobs, args=(user,))
         t.start()
+        return
     elif message == "Loc":
         viber.send_messages(viber_request.sender.id, location)
     elif message.startswith("Loc"):
