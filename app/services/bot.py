@@ -61,9 +61,9 @@ def message_handler(viber_request, message):
         )
     elif message == "Jobs":
         copy_user = {
-            categories: user.categories,
-            location: user.location,
-            receiver: user.receiver,
+            "categories": user.categories,
+            "location": user.location,
+            "receiver": user.receiver,
         }
         t = Thread(target=get_current_jobs, args=(copy_user,))
         t.start()
