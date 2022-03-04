@@ -60,9 +60,10 @@ def send_jobs():
     if day == 5 or day == 6:
         return Response(status=200)
     users = User.query.filter_by(daily=True)
+    user_objs = [[user.categories, user.location, user.receiver] for user in users]
     threads = min(MAX_THREADS, users.count())
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
-        executor.map(get_current_jobs, users)
+        executor.map(get_current_jobs, user_objs)
     return Response(status=200)
 
 

@@ -60,10 +60,11 @@ def message_handler(viber_request, message):
             TextMessage(text=f"Vaše izabrane kategorije su:\n{cat_mapping}"),
         )
     elif message == "Jobs":
-        db.session.expunge(user)
-        t = Thread(target=get_current_jobs, args=(user,))
+        t = Thread(
+            target=get_current_jobs,
+            args=([user.categories, user.location, user.receiver],),
+        )
         t.start()
-        return
     elif message == "Loc":
         viber.send_messages(viber_request.sender.id, location)
     elif message.startswith("Loc"):
@@ -93,17 +94,18 @@ def message_handler(viber_request, message):
     db.session.commit()
 
 
-def get_current_jobs(user):
-    jobs = get_jobs(user.categories, user.location)
+def get_current_jobs(user_obj):
+    categories, location, receiver = user_obj
+    jobs = get_jobs(categories, location)
     msgs = []
     for position, company, link in jobs:
         message = f"{position}\n{link}\n{company}"
         msgs.append(TextMessage(text=message))
     if msgs:
-        viber.send_messages(user.receiver, msgs)
+        viber.send_messages(receiver, msgs)
     else:
         viber.send_messages(
-            user.receiver,
+            receiver,
             TextMessage(
                 text="Danas nije bilo objavljenih poslova sa vašim kriterijumima."
             ),
