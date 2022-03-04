@@ -1,6 +1,7 @@
 from app import db, viber
 from app.models import User
 from viberbot.api.messages.text_message import TextMessage
+from threading import Thread
 from app.utils.texts import (
     categories,
     categories_list,
@@ -19,7 +20,6 @@ def message_handler(viber_request, message):
     if message == "Start":
         user = User(receiver=viber_request.sender.id)
         db.session.add(user)
-        db.session.commit()
         viber.send_messages(viber_request.sender.id, [subscribed])
     elif message == "Cat":
         if user.categories:
@@ -60,7 +60,8 @@ def message_handler(viber_request, message):
             TextMessage(text=f"Vaše izabrane kategorije su:\n{cat_mapping}"),
         )
     elif message == "Jobs":
-        get_current_jobs(user)
+        t = Thread(target=get_current_jobs, args=(user,))
+        t.start()
     elif message == "Loc":
         viber.send_messages(viber_request.sender.id, location)
     elif message.startswith("Loc"):

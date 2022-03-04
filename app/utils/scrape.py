@@ -20,7 +20,7 @@ def get_jobs(categories, location):
 
     baseUrl = f"https://www.mojposao.ba/#!searchjobs;keyword=;page=1;title=all;range=week;location=all;i={categories};lk={location}"
     driver.get(baseUrl)
-    driver.implicitly_wait(3)
+    driver.implicitly_wait(5)
     collected = []
     jobs = driver.find_elements(By.CLASS_NAME, "BF0HTNC-hg-l")
     for job in jobs:
