@@ -9,7 +9,7 @@ subscribed = TextMessage(
     Svaki dan u 18h ćete dobijati poruku sa objavljenim poslovima toga dana.\n
     Da bi postavili kategorije koje vas interesuju pošaljite Cat.\n
     Da bi promijenili lokaciju poslova pošaljite Loc.\n
-    Da bi vidili danas objavljene poslove pošaljite Jobs.\n
+    Da bi vidjeli danas objavljene poslove pošaljite Jobs.\n
     Da vidite sve dostupne komande pošaljite Help.
     """
 )

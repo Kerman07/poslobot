@@ -98,4 +98,12 @@ def get_current_jobs(user):
     for position, company, link in jobs:
         message = f"{position}\n{link}\n{company}"
         msgs.append(TextMessage(text=message))
-    viber.send_messages(user.receiver, msgs)
+    if msgs:
+        viber.send_messages(user.receiver, msgs)
+    else:
+        viber.send_messages(
+            user.receiver,
+            TextMessage(
+                text="Danas nije bilo objavljenih poslova sa vašim kriterijumima."
+            ),
+        )
