@@ -60,6 +60,7 @@ def message_handler(viber_request, message):
             TextMessage(text=f"Vaše izabrane kategorije su:\n{cat_mapping}"),
         )
     elif message == "Jobs":
+        db.session.expunge(user)
         t = Thread(target=get_current_jobs, args=(user,))
         t.start()
     elif message == "Loc":
