@@ -1,5 +1,6 @@
-import concurrent.futures
 import os
+from datetime import date
+import concurrent.futures
 from flask import request, Response
 from app import app, db, viber
 from viberbot.api.messages.text_message import TextMessage
@@ -55,6 +56,9 @@ def incoming():
 
 @app.route("/viber", methods=["GET"])
 def send_jobs():
+    day = date.today().weekday()
+    if day == 5 or day == 6:
+        return Response(status=200)
     users = User.query.filter_by(daily=True)
     threads = min(MAX_THREADS, users.count())
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
