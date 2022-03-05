@@ -118,7 +118,7 @@ def message_handler(viber_request, message):
         viber.send_messages(
             viber_request.sender.id,
             TextMessage(
-                text=f"Primanje dnevnih obavijesti: " + "Da" if user.daily else "Ne"
+                text=f"Primanje dnevnih obavijesti: " + ("Da" if user.daily else "Ne")
             ),
         )
 
