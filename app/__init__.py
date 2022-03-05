@@ -14,7 +14,7 @@ migrate = Migrate(app, db)
 viber = Api(
     BotConfiguration(
         name="Poslobot",
-        avatar="http://site.com/avatar.jpg",
+        avatar="https://www.mojposao.ba/images/PosaoBa_share_image_200x200.png",
         auth_token=os.environ.get("VIBER_AUTH"),
     )
 )
