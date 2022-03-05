@@ -83,6 +83,7 @@ commands = TextMessage(
     text="""Loc - postavite lokaciju\n
     Cat - postavite kategorije koje vas zanimaju\n
     Jobs - pogledajte poslove objavljene danas\n
+    Status - pogledajte vaše postavke\n
     End - prestanite primati dnevne obavijesti\n
     Begin - ponovo počnite primati dnevne obavijesti
     """
