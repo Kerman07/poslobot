@@ -73,7 +73,7 @@ def message_handler(viber_request, message):
         user.location = loc
         viber.send_messages(
             viber_request.sender.id,
-            TextMessage(text="Uspješno ste promjenili lokaciju"),
+            TextMessage(text="Uspješno ste promijenili lokaciju."),
         )
 
     elif message == "End":
@@ -81,7 +81,7 @@ def message_handler(viber_request, message):
         viber.send_messages(
             viber_request.sender.id,
             TextMessage(
-                text="Nećete primati dnevne obavijesti.\nDa bi ponovo počeli primati obavijesti pošaljite Begin"
+                text="Nećete primati dnevne obavijesti.\nDa bi ponovo počeli primati obavijesti pošaljite Begin."
             ),
         )
 
@@ -89,7 +89,7 @@ def message_handler(viber_request, message):
         user.daily = True
         viber.send_messages(
             viber_request.sender.id,
-            TextMessage(text="Ponovo ćete primati dnevne obavijesti"),
+            TextMessage(text="Ponovo ćete primati dnevne obavijesti."),
         )
 
     elif message == "Status":
@@ -104,7 +104,7 @@ def message_handler(viber_request, message):
         else:
             viber.send_messages(
                 viber_request.sender.id,
-                TextMessage(text=f"Niste izabrali kategorije\n"),
+                TextMessage(text=f"Niste izabrali kategorije.\n"),
             )
         if user.location:
             viber.send_messages(
@@ -113,7 +113,7 @@ def message_handler(viber_request, message):
             )
         else:
             viber.send_messages(
-                viber_request.sender.id, TextMessage(text=f"Niste izabrali lokaciju\n")
+                viber_request.sender.id, TextMessage(text=f"Niste izabrali lokaciju.\n")
             )
         viber.send_messages(
             viber_request.sender.id,
