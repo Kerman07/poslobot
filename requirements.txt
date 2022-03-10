@@ -71,7 +71,6 @@ tqdm==4.62.3
 trio==0.20.0
 trio-websocket==0.9.2
 Twisted==22.2.0
-twisted-iocpsupport==1.0.2
 typing_extensions==4.1.1
 urllib3==1.26.8
 viberbot==1.0.12
