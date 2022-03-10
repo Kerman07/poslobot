@@ -1,3 +1,4 @@
+import crochet
 from app import db, viber, crawl_runner
 from app.models import User
 from viberbot.api.messages.text_message import TextMessage
