@@ -143,7 +143,7 @@ def scrape_with_crochet(_list, categories, location, receiver):
     eventual = crawl_runner.crawl(
         JobSpider,
         start_urls=[
-            f"https://www.mojposao.ba/#!searchjobs;keyword=;page=1;title=all;range=today;location=all;i=32_33_47;lk="
+            f"https://www.mojposao.ba/#!searchjobs;keyword=;page=1;title=all;range=week;location=all;i=32_33_47;lk="
         ],
         job_list=_list,
     )
