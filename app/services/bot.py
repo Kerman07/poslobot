@@ -1,4 +1,5 @@
 import crochet
+import logging
 from app import db, viber, crawl_runner
 from app.models import User
 from viberbot.api.messages.text_message import TextMessage
@@ -13,9 +14,6 @@ from app.utils.texts import (
 )
 from app.utils.scrape import JobSpider
 from app.utils.dictionary import mapping
-
-
-jobs = []
 
 
 def message_handler(viber_request, message):
@@ -131,6 +129,7 @@ def message_handler(viber_request, message):
 
     db.session.commit()
 
+jobs = []
 
 def get_current_jobs(user_obj):
     categories, location, receiver = user_obj
@@ -139,30 +138,20 @@ def get_current_jobs(user_obj):
     scrape_with_crochet(jobs, categories, location, receiver)
 
 
-def process_jobs(receiver):
-    msgs = []
-    global jobs
-    for position, company, link in jobs:
-        message = f"{position}\n{link}\n{company}"
-        msgs.append(TextMessage(text=message))
-    if msgs:
-        viber.send_messages(receiver, msgs)
-    else:
-        viber.send_messages(
-            receiver,
-            TextMessage(
-                text="Danas nije bilo objavljenih poslova sa vašim kriterijumima."
-            ),
-        )
-
-
 @crochet.run_in_reactor
 def scrape_with_crochet(_list, categories, location, receiver):
     eventual = crawl_runner.crawl(
         JobSpider,
         start_urls=[
-            f"https://www.mojposao.ba/#!searchjobs;keyword=;page=1;title=all;range=today;location=all;i={categories};lk={location}"
+            f"https://www.mojposao.ba/#!searchjobs;keyword=;page=1;title=all;range=today;location=all;i=32_33_47;lk="
         ],
         job_list=_list,
     )
-    eventual.addCallback(process_jobs, receiver)
+    eventual.addCallback(process_jobs)
+
+
+def process_jobs():
+    global jobs
+    for position, company, link in jobs:
+        message = f"{position}\n{link}\n{company}"
+        logging.warning(message)
