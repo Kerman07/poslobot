@@ -13,4 +13,5 @@ class JobSpider(scrapy.Spider):
                 link = "https://www.mojposao.ba/" + whole_link[0] + ";" + whole_link[-1]
                 hgc = job.css(".BF0HTNC-hg-c")
                 company = hgc[-1].css("a::text").get()
+                logging.warning([position, company, link])
                 self.job_list.append([position, company, link])
