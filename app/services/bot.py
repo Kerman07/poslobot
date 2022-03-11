@@ -1,5 +1,4 @@
 import crochet
-import logging
 from app import db, viber, crawl_runner
 from app.models import User
 from viberbot.api.messages.text_message import TextMessage
@@ -129,26 +128,18 @@ def message_handler(viber_request, message):
 
     db.session.commit()
 
-jobs = []
 
 def get_current_jobs(user_obj):
     categories, location, receiver = user_obj
-    global jobs
-    jobs = []
-    scrape_with_crochet(jobs, categories, location, receiver)
+    scrape_with_crochet(categories, location, receiver)
 
 
 @crochet.run_in_reactor
-def scrape_with_crochet(_list, categories, location, receiver):
+def scrape_with_crochet(categories, location, receiver):
     eventual = crawl_runner.crawl(
         JobSpider,
         start_urls=[
-            f"https://www.mojposao.ba/#!searchjobs;keyword=;page=1;title=all;range=week;location=all;i=32_33_47;lk="
+            f"https://www.mojposao.ba/#!searchjobs;keyword=;page=1;title=all;range=today;location=all;i={categories};lk={location}"
         ],
-        job_list=_list,
+        receiver=receiver,
     )
-    eventual.addCallback(process_jobs)
-
-
-def process_jobs():
-    logging.warning("done")

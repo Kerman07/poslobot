@@ -1,11 +1,14 @@
 import scrapy
-import logging
+from app import viber
+from viberbot.api.messages.text_message import TextMessage
+
 
 class JobSpider(scrapy.Spider):
     name = "jobs"
 
     def parse(self, response):
         jobs = response.css(".BF0HTNC-hg-l")
+        msgs = []
         for job in jobs:
             position = job.css("a::text").get()
             if position:
@@ -13,5 +16,14 @@ class JobSpider(scrapy.Spider):
                 link = "https://www.mojposao.ba/" + whole_link[0] + ";" + whole_link[-1]
                 hgc = job.css(".BF0HTNC-hg-c")
                 company = hgc[-1].css("a::text").get()
-                logging.warning([position, company, link])
-                self.job_list.append([position, company, link])
+                message = f"{position}\n{link}\n{company}"
+                msgs.append(TextMessage(text=message))
+        if msgs:
+            viber.send_messages(self.receiver, msgs)
+        else:
+            viber.send_messages(
+                self.receiver,
+                TextMessage(
+                    text="Danas nije bilo objavljenih poslova sa vašim kriterijumima."
+                ),
+            )
