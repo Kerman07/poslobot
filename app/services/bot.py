@@ -131,11 +131,11 @@ def message_handler(viber_request, message):
 
 jobs = []
 
-def get_current_jobs(user_obj):
+async def get_current_jobs(user_obj):
     categories, location, receiver = user_obj
     global jobs
     jobs = []
-    scrape_with_crochet(jobs, categories, location, receiver)
+    await scrape_with_crochet(jobs, categories, location, receiver)
 
 
 @crochet.run_in_reactor
