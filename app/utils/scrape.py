@@ -1,5 +1,5 @@
 import scrapy
-
+import logging
 
 class JobSpider(scrapy.Spider):
     name = "jobs"
