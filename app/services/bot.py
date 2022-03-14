@@ -34,7 +34,7 @@ def message_handler(viber_request, message):
 
     elif message.startswith("Cat a"):
         to_add = message.split()[-1]
-        if to_add in user.categories:
+        if to_add in user.categories.split("_"):
             return
         if not user.categories:
             user.categories = to_add
