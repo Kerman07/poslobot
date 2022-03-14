@@ -43,12 +43,9 @@ def message_handler(viber_request, message):
 
     elif message.startswith("Cat d"):
         to_delete = message.split()[-1]
-        if "_" + to_delete in user.categories:
-            user.categories = user.categories.replace("_" + to_delete, "")
-        elif to_delete + "_" in user.categories:
-            user.categories = user.categories.replace(to_delete + "_", "")
-        elif to_delete in user.categories:
-            user.categories = ""
+        user.categories = "_".join(
+            cat for cat in user.categories.split("_") if cat != to_delete
+        )
 
     elif message.startswith("Cat"):
         cats = message.split()[1].replace(".", "_")
