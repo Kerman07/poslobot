@@ -6,7 +6,6 @@ from app import app, db, viber
 from viberbot.api.messages.text_message import TextMessage
 import logging
 
-MAX_THREADS = 32
 
 from viberbot.api.viber_requests import (
     ViberFailedRequest,
@@ -61,9 +60,8 @@ def send_jobs():
         return Response(status=200)
     users = User.query.filter_by(daily=True)
     user_objs = [[user.categories, user.location, user.receiver] for user in users]
-    threads = min(MAX_THREADS, users.count())
-    with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
-        executor.map(get_current_jobs, user_objs)
+    for user_obj in user_objs:
+        get_current_jobs(user_obj)
     return Response(status=200)
 
 
