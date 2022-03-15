@@ -125,11 +125,14 @@ def message_handler(viber_request, message):
 
     db.session.commit()
 
-
-@crochet.run_in_reactor
+@crochet.wait_for(timeout=4)
 def get_current_jobs(user_obj):
     categories, location, receiver = user_obj
-    eventual = crawl_runner.crawl(
+    scrape_with_crochet(categories, location, receiver)
+
+@crochet.run_in_reactor
+def scrape_with_crochet(categories, location, receiver):
+    crawl_runner.crawl(
         JobSpider,
         start_urls=[
             f"https://www.mojposao.ba/#!searchjobs;keyword=;page=1;title=all;range=today;location=all;i={categories};lk={location}"
