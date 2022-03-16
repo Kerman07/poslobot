@@ -125,10 +125,11 @@ def message_handler(viber_request, message):
 
     db.session.commit()
 
-@crochet.wait_for(timeout=4)
+
 def get_current_jobs(user_obj):
     categories, location, receiver = user_obj
     scrape_with_crochet(categories, location, receiver)
+
 
 @crochet.run_in_reactor
 def scrape_with_crochet(categories, location, receiver):

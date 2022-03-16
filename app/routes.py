@@ -52,6 +52,7 @@ def incoming():
 
     return Response(status=200)
 
+import time
 
 @app.route("/viber", methods=["GET"])
 def send_jobs():
@@ -62,6 +63,7 @@ def send_jobs():
     user_objs = [[user.categories, user.location, user.receiver] for user in users]
     for user_obj in user_objs:
         get_current_jobs(user_obj)
+        time.sleep(4)
     return Response(status=200)
 
 
