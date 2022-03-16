@@ -130,13 +130,15 @@ def get_current_jobs(user_obj):
     categories, location, receiver = user_obj
     scrape_with_crochet(categories, location, receiver)
 
+import time
 
 @crochet.run_in_reactor
 def scrape_with_crochet(categories, location, receiver):
-    crawl_runner.crawl(
+    eventual = crawl_runner.crawl(
         JobSpider,
         start_urls=[
             f"https://www.mojposao.ba/#!searchjobs;keyword=;page=1;title=all;range=today;location=all;i={categories};lk={location}"
         ],
         receiver=receiver,
     )
+    eventual.addCallback(lambda _: time.sleep(0.5))
