@@ -140,4 +140,3 @@ def scrape_with_crochet(categories, location, receiver):
         ],
         receiver=receiver,
     )
-    crawl_runner.join()

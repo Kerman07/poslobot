@@ -6,6 +6,10 @@ from viberbot.api.messages.text_message import TextMessage
 class JobSpider(scrapy.Spider):
     name = "jobs"
 
+    custom_settings = {
+        "CONCURRENT_REQUESTS": 1,
+    }
+
     def parse(self, response):
         jobs = response.css(".BF0HTNC-hg-l")
         msgs = []
