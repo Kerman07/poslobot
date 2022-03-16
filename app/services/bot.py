@@ -133,10 +133,11 @@ def get_current_jobs(user_obj):
 
 @crochet.run_in_reactor
 def scrape_with_crochet(categories, location, receiver):
-    yield crawl_runner.crawl(
+    crawl_runner.crawl(
         JobSpider,
         start_urls=[
             f"https://www.mojposao.ba/#!searchjobs;keyword=;page=1;title=all;range=today;location=all;i={categories};lk={location}"
         ],
         receiver=receiver,
     )
+    crawl_runner.join()

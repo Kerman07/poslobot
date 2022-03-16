@@ -75,9 +75,7 @@ def send_jobs():
 def wake_heroku():
     return Response(status=200)
 
-import time
 
 def send_one_job_at_time(user_objs):
     for user_obj in user_objs:
-        deferred = get_current_jobs(user_obj)
-        deferred.addCallback(lambda _: time.sleep(0.5))
+        get_current_jobs(user_obj)
