@@ -52,7 +52,9 @@ def incoming():
 
     return Response(status=200)
 
+
 import time
+
 
 @app.route("/viber", methods=["GET"])
 def send_jobs():
@@ -61,12 +63,20 @@ def send_jobs():
         return Response(status=200)
     users = User.query.filter_by(daily=True)
     user_objs = [[user.categories, user.location, user.receiver] for user in users]
-    for user_obj in user_objs:
-        get_current_jobs(user_obj)
-        time.sleep(4)
+    t = Thread(
+        target=send_one_job_at_time,
+        args=(user_objs,),
+    )
+    t.start()
     return Response(status=200)
 
 
 @app.route("/hero", methods=["GET"])
 def wake_heroku():
     return Response(status=200)
+
+
+def send_one_job_at_time(user_objs):
+    for user_obj in user_objs:
+        get_current_jobs(user_obj)
+        time.sleep(4)
