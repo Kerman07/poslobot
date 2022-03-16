@@ -5,6 +5,7 @@ from flask import request, Response
 from app import app, db, viber
 from viberbot.api.messages.text_message import TextMessage
 import logging
+import time
 
 
 from viberbot.api.viber_requests import (
@@ -79,3 +80,4 @@ def wake_heroku():
 def send_one_job_at_time(user_objs):
     for user_obj in user_objs:
         get_current_jobs(user_obj)
+        time.sleep(10)
