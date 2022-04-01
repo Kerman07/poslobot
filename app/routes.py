@@ -1,4 +1,5 @@
 import os
+import time
 from threading import Thread
 from datetime import date
 from flask import request, Response
@@ -54,9 +55,6 @@ def incoming():
     return Response(status=200)
 
 
-import time
-
-
 @app.route("/viber", methods=["PUT"])
 def send_jobs():
     day = date.today().weekday()
@@ -80,4 +78,4 @@ def wake_heroku():
 def send_one_job_at_time(user_objs):
     for user_obj in user_objs:
         get_current_jobs(user_obj)
-        time.sleep(10)
+        time.sleep(7)

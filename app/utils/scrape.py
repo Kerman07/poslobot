@@ -23,7 +23,7 @@ class JobSpider(scrapy.Spider):
                 message = f"{position}\n{link}\n{company}"
                 msgs.append(TextMessage(text=message))
         if msgs:
-            viber.send_messages("SVDRnk/HlrP/FI/66iUW1w==", msgs)
+            viber.send_messages(self.receiver, msgs)
         else:
             viber.send_messages(
                 "SVDRnk/HlrP/FI/66iUW1w==",
