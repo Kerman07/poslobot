@@ -57,7 +57,7 @@ def incoming():
 import time
 
 
-@app.route("/viber", methods=["GET"])
+@app.route("/viber", methods=["PUT"])
 def send_jobs():
     day = date.today().weekday()
     if day == 5 or day == 6:
