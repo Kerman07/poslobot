@@ -26,7 +26,7 @@ class JobSpider(scrapy.Spider):
             viber.send_messages(self.receiver, msgs)
         else:
             viber.send_messages(
-                "SVDRnk/HlrP/FI/66iUW1w==",
+                self.receiver,
                 TextMessage(
                     text="Danas nije bilo objavljenih poslova sa vašim kriterijumima."
                 ),
