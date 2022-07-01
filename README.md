@@ -7,4 +7,4 @@
 * deployed on Heroku
 
 # Sample Screen
-![IMG]()
+<img src="migrations/screen/Screenshot_20220701_101107.jpg" width="25%">
