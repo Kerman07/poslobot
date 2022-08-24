@@ -11,17 +11,16 @@ class JobSpider(scrapy.Spider):
     }
 
     def parse(self, response):
-        jobs = response.css(".BF0HTNC-hg-l")
+        jobs = response.css(".DVIXVVB-hg-k")
         msgs = []
         for job in jobs:
-            position = job.css("a::text").get()
-            if position:
-                whole_link = job.css("a::attr(href)").get().split(";")
-                link = "https://www.mojposao.ba/" + whole_link[0] + ";" + whole_link[-1]
-                hgc = job.css(".BF0HTNC-hg-c")
-                company = hgc[-1].css("a::text").get()
-                message = f"{position}\n{link}\n{company}"
-                msgs.append(TextMessage(text=message))
+            info_div = job.css(".DVIXVVB-hg-l")
+            job_id = info_div.css("a::attr(href)").get().split(";")[-1]
+            link = "https://www.mojposao.ba/#!job;" + job_id
+            position = info_div.css("a::text").get()
+            company = info_div.css(".DVIXVVB-hg-c *::text").getall()[-1]
+            message = f"{position}\n{link}\n{company}"
+            msgs.append(TextMessage(text=message))
         if msgs:
             viber.send_messages(self.receiver, msgs)
         else:
